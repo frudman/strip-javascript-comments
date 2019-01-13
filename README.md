@@ -9,3 +9,6 @@ HOWEVER...
 ...in FAILING, the stripped code will now contain syntax errors...
 ...so there will be an opportunity to address them, using WORKAROUNDS below
 
+Similar to https://www.npmjs.com/package/uncomment but simpler code base and handles extra cases
+
+Need confirmation from others
