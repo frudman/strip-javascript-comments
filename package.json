@@ -1,7 +1,7 @@
 {
   "name": "strip-javascript-comments",
-  "version": "1.0.1",
-  "description": "a fast, very small module to remove comments from javascript code",
+  "version": "1.0.2",
+  "description": "a very small, fast module to remove (i.e. strip) comments from javascript code",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,9 +13,14 @@
     "url": "git+https://github.com/frudman/strip-javascript-comments.git"
   },
   "keywords": [
-    "webpack",
-    "plugin",
-    "post-processing"
+    "javascript",
+    "comment",
+    "comments",
+    "pre-processing",
+    "post-processing",
+    "remove",
+    "strip",
+    "clean"
   ],
   "bugs": {
     "url": "https://github.com/frudman/strip-javascript-comments/issues"
