@@ -7,5 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Frederic Rudman",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frudman/strip-javascript-comments.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "post-processing"
+  ],
+  "bugs": {
+    "url": "https://github.com/frudman/strip-javascript-comments/issues"
+  },
+  "homepage": "https://github.com/frudman/strip-javascript-comments#readme"
 }
