@@ -1,6 +1,7 @@
 'use strict'
 
 // to run minimizer: npm run build
+// then, to run tests: npm run test
 
 // "maintained" minimizer for webpack (from https://github.com/terser-js/terser)
 const TerserPlugin = require('terser-webpack-plugin');

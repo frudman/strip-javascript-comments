@@ -2,6 +2,16 @@
 // there are SERIOUS CAVEATS to be aware of when using this code (as per ./README.md)
 //
 
+/**
+ * strip-comments.js - strips comments from javascript code
+ *
+ * Copyright (c) 2019- Frederic Rudman
+ *
+ * Distributed under the MIT license.
+ */
+
+export default stripComments;
+
 export function stripComments(code) {
 
     var strippedCode = '',
@@ -10,7 +20,7 @@ export function stripComments(code) {
         inQuote = false, // becomes the quote's leading char (i.e. a 1-char string)
         inEOLComment = false,
         inMultilineComment = false,
-        mlcStartPos = -1;
+        mlcStartPos = -1; // start pos if in a multiline comment
 
     const more = () => ++pos < code.length, // also increments to next char
           cur = () => (pos < code.length) ? code[pos] : ' ',

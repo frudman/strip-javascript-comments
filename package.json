@@ -1,6 +1,6 @@
 {
   "name": "strip-javascript-comments",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "a very small, fast(ish) module to strip (i.e. remove) comments from javascript code",
   "main": "strip-comments.js",
   "scripts": {
