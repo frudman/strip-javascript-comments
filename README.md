@@ -15,8 +15,8 @@ The second class of comment removing algorithms are those created "on-the-fly" b
 
 A simple implementation (using regex) can be only a few lines long ([this is a good example](https://stackoverflow.com/questions/3577767/javascript-comment-stripper) and there are **many many many more** on the intertubes) but will usually fail in some cases. These failures may be acceptable depending on your use cases (if you have some control over the code you're likely to clean, this may not be an issue). But if you need to handle edge cases, these minimal implementations may not work since they may __fail silently__.
 
-### My App Requirements
-I implemented my own version because I could not include a large code base for what was a small requirement in our app but I wanted a more complete implementation than waht was out there. 
+### My Requirements
+I implemented my own version because I could not include a large code base for what was a small requirement in our app but I wanted a more complete implementation than what was out there. 
 
 I also wanted a dead-simple function that did not use any options or settings (as many of the others do).
 
@@ -53,12 +53,12 @@ var pc1a = /succeeds with any-reg-exp \/*/  ;
 var pc1b = /succeeds with any-reg-exp \\\/*/  ; 
 var pc1c = /succeeds with any-reg-exp \\\\\/*/  ; 
 ```
-strip-comments WILL WORK CORRECTLY in these cases as it looks for backslash count in determining whether or not the slash-star is escaped or not.
+`strip-comments` WILL WORK CORRECTLY in these cases as it considers sequential backslash count in determining whether or not the slash-star is escaped or not.
 
 #### Patho-case #2: [UNLIKELY but possible]
-This occurs when a regex is immediately followed by an operator (multiplication `*` or division `/`). This is legal but does not make sense because it's not clear why anyone would want to multiply or divide a regular expression.
+This occurs when a regex is immediately followed by an "operator" (i.e. multiplication `*` or division `/`). This is legal but does not make any sense: it's not clear why someone would want to multiply or divide a regular expression.
 
-This is likely a user error, imo. Removing the second slash or the asterisk should clear up the case.
+This is likely a user error, imo. **Removing the second slash or the asterisk should clear up the case.**
 
 A syntax error WILL RESULT result from my comment stripping code:
 ```
@@ -69,11 +69,11 @@ var pc2b = /fails: trailing slash of regex lost->/*g  ; // will steal everything
 #### Patho-case #3: [UNLIKELY but possible]
 This occurs when a double-slash is used in a regular expression character matching expression, such as `[//]`. While this is legal, it's likely an error since there is no need to use the same character twice inside the `[]` operator.
 
-This is likely an error, imo, and removing the second character will correct the situation.
+This is likely an error, imo, and **removing the second character will correct the situation**.
 
 A syntax error WILL RESULT result from my comment stripping code:
 ```
-var pc3 = /fails: remainder of regex lost after ->[//] rest-of-regexp /  ;
+var pc3 = /fails: remainder of regex lost after ->[//] rest-of-re / ;
 ```
 
 #### Patho-case #4: [BAD-AND-UNVERIFIABLE]
@@ -83,19 +83,19 @@ This will happen if the exact sequence of character matching in a regular expres
 
 A syntax error WILL RESULT result from my comment stripping code:
 ```
-var pc4 = /fails: remainder of regex lost after ->[/*] rest-of-regexp/  ; // will steal everything until next */
+var pc4 = /fails: remainder of regex lost after ->[/*] rest-of-re/ ; // code stripped until next */
 ```
 
 #### Patho-case #5: [BAD-AND-UNVERIFIABLE]
-This occurs is a valid comment immediately following a regular expression, which leads my code to STRIP THE WRONG slashes (first two, including end-of-regex slash, instead of following 2 chars).
+This occurs when a valid comment **immediately** follows a regular expression, without an intervening space, which leads my code to STRIP THE WRONG slashes (first two, including end-of-regex slash, instead of following 2 chars).
 
-**WORKAROUND** is to simply include a separator character (i.e. space, or semicolon) before the comment (which most developers would consider as good form anyway [ahemm...])
+**WORKAROUND** is to simply include a separator character (i.e. space, or semicolon) before the comment (which most developers would consider as good form anyway [ahemm... :-)])
 
 
 A syntax error WILL RESULT result from my comment stripping code:
 ```
-var pc5a = /fails: trailing slash of regex lost->/// this is a valid EOL comment following a regex
-var pc5b = /fails: trailing slash of regex lost->//* this is a valid multiline comment following a regex */
+var pc5a = /fails: trailing slash of regex lost->/// valid EOL comment following a regex
+var pc5b = /fails: trailing slash of regex lost->//* valid multiline comment following a regex */
 ```
 
 ## Caveat
