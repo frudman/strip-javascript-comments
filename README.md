@@ -44,7 +44,7 @@ Many pure regex will consider strings as special cases but ignore some issues:
 3. string quotes now include 'tick' marks (older algos that may not have been updated)
 
 ### Regular Expressions
-All these cases are kept in the [pathological cases file](./test-cases-pathological.js)
+All these cases are kept in the [pathological cases file](./test-cases/pathological.js)
 
 #### Patho-case #1: [OK-BECAUSE-DETECTABLE-AND-AVOIDABLE]
 This occurs when an odd number of backslashes preceeds what looks to be a comment start in a regular expression.

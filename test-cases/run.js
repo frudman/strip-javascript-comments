@@ -1,10 +1,10 @@
 // what we're testing (shown: 3 methods to include)
-const { stripComments } = require('./strip-comments.min.js');
+const { stripComments } = require('../strip-comments.min.js');
 //const  stripComments  = require('./strip-comments.min.js').stripComments;
 //const  stripComments  = require('./strip-comments.min.js').default;
 
 // what we're testing against
-const TEST_CASES_FILES = ['./test-cases-pathological.js', './test-cases-data.js'];
+const TEST_CASES_FILES = ['./test-cases/pathological.js', './test-cases/data.js'];
 
 // each test case is preceded with this pattern: '// --- test case: [optional case title] \n [test-case-code-follows]'
 const testcaseSepPat = /(^|\n)[/][/]\s*[-]*\s*test\s*case\s*[:]?/; 
