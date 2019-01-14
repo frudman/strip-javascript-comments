@@ -100,6 +100,6 @@ var pc5b = /fails: trailing slash of regex lost->//* valid multiline comment fol
 
 ## Caveat
 
-While my implementation does NOT cover the last 2 "path-cases," it WILL GENERATE A SYNTAX ERROR in the resulting code. This error can be caught and the suggested workaround used (if it wasn't an error in the first place).
+While my implementation does NOT cover the last 2 "patho-cases," (#4 & #5) it WILL GENERATE A SYNTAX ERROR in the resulting code. This error can be caught and the suggested workarounds used (if it wasn't an error in the first place).
 
-For me, this compromise was adequate for the use cases of the app. Your requirements may differ.
+For me, this compromise is adequate for the use cases of the app I'm working on. Your requirements may differ.
