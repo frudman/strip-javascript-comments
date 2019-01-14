@@ -1,6 +1,6 @@
 module.exports = function stripComments(code) {
 
-    // there are SERIOUS CAVEATS to be aware of when using this code. Please read ./README.md
+    // there are SERIOUS CAVEATS to be aware of when using this code (as per ./README.md)
 
     var strippedCode = '',
         pos = -1,
@@ -14,17 +14,22 @@ module.exports = function stripComments(code) {
           cur = () => (pos < code.length) ? code[pos] : ' ',
           next = () => (pos+1 < code.length) ? code[pos+1] : ' ',
           prev = () => (pos-1 >= 0) ? code[pos-1] : ' ',
-          prevPrev = () => (pos-2 >= 0) ? code[pos-2] : ' ',
           isSpaceChar = c => c === ' ' || c === '\n' || c === '\r' || c === '\t' || c === '\f', // other space chars?
           isQuoteChar = c => c === '"' || c === "'" || c === '`',
           validMLC = () => pos - 2 > mlcStartPos, // to prevent /*/ from being considered valid multiline-comment
+          lastKeptChar = () => strippedCode.length > 0 ? strippedCode[strippedCode.length-1] : '',
           keep = c => strippedCode += c;
+
+    // checking for escaped-quotes AND for patho-case #1
+    var backslashes = 0;
+    const evenNumberOfPrecedingBackSlashes = () =>  backslashes % 2 === 0; 
 
     while (more()) {
         const c = cur();
+
         if (inQuote) {
             keep(c);
-            if (c === inQuote && (prev() !== '\\' || prevPrev() !== '\\'))
+            if (c === inQuote && evenNumberOfPrecedingBackSlashes()) // checking for escaped quotes
                 inQuote = false;
         }
         else if (inEOLComment) {
@@ -40,12 +45,12 @@ module.exports = function stripComments(code) {
             }
         }
         else if (isSpaceChar(c)) {
-            spacingChar = (c === '\n') ? '\n' : (spacingChar === '\n') ? '\n' : ' ';
+            spacingChar = (c === '\n' || spacingChar === '\n') ? '\n' : ' ';
         }
         else { 
             // first, handle prior spacing...
             if (spacingChar) { // ...if any
-                keep(spacingChar);
+                (lastKeptChar() !== spacingChar) && keep(spacingChar);
                 spacingChar = null;
             }
 
@@ -57,7 +62,7 @@ module.exports = function stripComments(code) {
             else if (c === '/') { 
                 if (next() === '/')
                     inEOLComment = true;
-                else if (next() === '*' && prev() !== '\\') { // prev() check is for patho-case #1
+                else if (next() === '*' && evenNumberOfPrecedingBackSlashes()) { // checking for patho-case #1
                     inMultilineComment = true;
                     mlcStartPos = pos; // remember its start: a ml-comment must be at least 4 chars long (incl. /* and */)
                 }
@@ -68,6 +73,8 @@ module.exports = function stripComments(code) {
                 keep(c);
             }
         }
+
+        backslashes = (c === '\\') ? backslashes+1 : 0;
     }
 
     return strippedCode;

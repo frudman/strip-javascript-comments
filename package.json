@@ -1,10 +1,11 @@
 {
   "name": "strip-javascript-comments",
-  "version": "1.0.2",
-  "description": "a very small, fast module to remove (i.e. strip) comments from javascript code",
-  "main": "index.js",
+  "version": "1.0.3",
+  "description": "a very small, fast(ish) module to strip (i.e. remove) comments from javascript code",
+  "main": "strip-comments.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test-cases-run",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "Frederic Rudman",
   "license": "ISC",
@@ -14,10 +15,12 @@
   },
   "keywords": [
     "javascript",
+    "code",
     "comment",
     "comments",
     "pre-processing",
     "post-processing",
+    "delete",
     "remove",
     "strip",
     "clean"
@@ -25,5 +28,10 @@
   "bugs": {
     "url": "https://github.com/frudman/strip-javascript-comments/issues"
   },
-  "homepage": "https://github.com/frudman/strip-javascript-comments#readme"
+  "homepage": "https://github.com/frudman/strip-javascript-comments#readme",
+  "devDependencies": {
+    "terser-webpack-plugin": "^1.2.1",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  }
 }
