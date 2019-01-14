@@ -1,6 +1,8 @@
-module.exports = function stripComments(code) {
+//
+// there are SERIOUS CAVEATS to be aware of when using this code (as per ./README.md)
+//
 
-    // there are SERIOUS CAVEATS to be aware of when using this code (as per ./README.md)
+export function stripComments(code) {
 
     var strippedCode = '',
         pos = -1,
