@@ -1,10 +1,9 @@
 {
   "name": "strip-javascript-comments",
-  "version": "1.0.9",
+  "version": "1.1.2",
   "description": "a very small, fast(ish) module to strip (i.e. remove) comments from javascript code",
-  "main": "strip-comments.js",
-  "unpkg": "strip-comments.min.js",
-  "module": "strip-comments.js",
+  "main": "index.js",
+  "unpkg": "dist/strip-comments.amd.min.js",
   "scripts": {
     "test": "node test-cases/run",
     "build": "webpack --config webpack.config.js"
