@@ -1,9 +1,5 @@
 'use strict'
 
-// TODO: look into webpack's module.noParse option
-// - https://webpack.js.org/configuration/module/#module-noparse
-// - also: https://tomasalabes.me/blog/web-development/2016/04/30/Webpack-Series-Part-1.html
-
 // to run minimizer: npm run build
 // then, to run tests: npm run test
 
@@ -12,7 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const baseConfig = {
     mode: 'production',
-    entry: './index.js', // how to generate multiple outputs for same input? commonjs2, amd (& es6?)
+    entry: './index.js',
     output: { 
         path: __dirname, 
     }, 
@@ -66,11 +62,13 @@ function genCombos(options, cb) {
 function genBuildConfiguration(opt) {
     const config = deepClone(baseConfig),
           es = () => opt.ecma === 5 ? '' : `.es${opt.ecma}`;
+
     config.output.filename = `dist/strip-comments${es()}${opt.target.ext}${opt.minimize?'.min':''}.js`;
     config.output.libraryTarget = opt.target.name;
-    config.optimization.minimize = opt.minimize;
-    if (opt.minimize)
+
+    if (config.optimization.minimize = opt.minimize)
         config.optimization.minimizer = [ minimizerConfig(opt.ecma) ];
+
     return config;
 }
 
