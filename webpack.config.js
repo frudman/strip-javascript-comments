@@ -8,7 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production',
-    entry: './strip-comments.js',
+    entry: './strip-comments.js', // how to generate multiple outputs for same input? commonjs2, amd (& es6?)
     output: { path: __dirname, filename: './strip-comments.min.js', libraryTarget: 'commonjs' },
     optimization: {
         minimize: true,

@@ -5,7 +5,7 @@
 /**
  * strip-comments.js - strips comments from javascript code
  *
- * Copyright (c) 2019- Frederic Rudman
+ * Copyright (c) 2019+ Frederic Rudman
  *
  * Distributed under the MIT license.
  */
@@ -62,7 +62,7 @@ export function stripComments(code) {
         else { 
             // first, handle prior spacing...
             if (spacingChar) { // ...if any
-                (lastKeptChar() !== spacingChar) && keep(spacingChar);
+                (lastKeptChar() !== spacingChar) && keep(spacingChar); // collapse multiple ones into single
                 spacingChar = null;
             }
 
