@@ -2,16 +2,16 @@
 A small & fast(ish) implementation of comment-removal from javascript source code.
 
 There are MANY such implementation on the interwebz. All (that I'm aware of) fall into 2 camps:
-1. Directly or indirectly use a full javascript parser, often [esprima](http://esprima.org/) together with the [escodegen project](https://github.com/estools/escodegen). Another example is [babel/babylon](https://new.babeljs.io/docs/en/babylon.html) which actually uses esprima under the hood.
+1. Directly or indirectly use a full javascript parser, often [esprima](http://esprima.org/) together with the [escodegen project](https://github.com/estools/escodegen). Another example is the [Babel ecosytem](https://new.babeljs.io/) which uses the [babylon parser](https://new.babeljs.io/docs/en/babylon.html) under the hood.
 2. Small direct implementation using character processing (including regular expressions)
 
 ### Parser-based Implementations
-[RECOMMENDED] If your app can afford (size-wise, effort-wise) a parser-based implementation, **this should definitely be your choice**. There is no better alternative than native parsing in order to correctly detect and remove comments from javascript code. That's because javascript comments have a syntax that can make it indistinguishable from certain regular expressions (as per below).
+[RECOMMENDED] If your app can afford a parser-based implementation (code-size-wise, dev-effort-wise), **this should definitely be your choice**. There is no better alternative than native parsing in order to correctly detect and remove comments from javascript code. That's because javascript comments have a syntax that can make it indistinguishable from certain regular expressions (as per below).
 
 A full parser will not get tripped up on "comments" inside strings or regular expressions.
 
 ### Non-Parser-based Implementations
-The second class of comment removing algorithms are those created "on-the-fly" by developers like me who need something very lighweight and single-purpose and don't want to (or can't) include a full parser in their distro (usually because of size constraints).
+The second class of comment removing algorithms are those created "on-the-fly" by developers (like me!) who need something very lighweight and single-purpose and don't want to (or can't afford to) include a full parser in their distro (usually because of size constraints).
 
 A simple implementation (using regex) can be only a few lines long ([this is a good example](https://stackoverflow.com/questions/3577767/javascript-comment-stripper) and there are **many many many more** on the intertubes) but will usually fail in some cases. These failures may be acceptable depending on your use cases (if you have some control over the code you're likely to clean, this may not be an issue). But if you need to handle edge cases, these minimal implementations may not work since they may __fail silently__.
 
