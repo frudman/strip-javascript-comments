@@ -1,13 +1,13 @@
 //
-// there are SERIOUS CAVEATS to be aware of when using this code (as per ./README.md)
+// there are SERIOUS CAVEATS to be aware of when using this code (as per README.md)
 //
 
 /**
- * strip-comments.js - strips comments from javascript code
+ * strip-javascript-comments.js - strips comments from javascript code
  *
  * Copyright (c) 2019+ Frederic Rudman
  *
- * Distributed under the MIT license.
+ * Distributed under the ISC license.
  */
 
 export default stripComments;
@@ -20,7 +20,8 @@ export function stripComments(code) {
         inQuote = false, // becomes the quote's leading char (i.e. a 1-char string)
         inEOLComment = false,
         inMultilineComment = false,
-        mlcStartPos = -1; // start pos if in a multiline comment
+        mlcStartPos = -1, // start pos if in a multiline comment
+        backslashes = 0; // when checking for escaped-quotes AND for patho-case #1
 
     const more = () => ++pos < code.length, // also increments to next char
           cur = () => (pos < code.length) ? code[pos] : ' ',
@@ -30,11 +31,8 @@ export function stripComments(code) {
           isQuoteChar = c => c === '"' || c === "'" || c === '`',
           validMLC = () => pos - 2 > mlcStartPos, // to prevent /*/ from being considered valid multiline-comment
           lastKeptChar = () => strippedCode.length > 0 ? strippedCode[strippedCode.length-1] : '',
-          keep = c => strippedCode += c;
-
-    // checking for escaped-quotes AND for patho-case #1
-    var backslashes = 0;
-    const evenNumberOfPrecedingBackSlashes = () =>  backslashes % 2 === 0; 
+          keep = c => strippedCode += c,
+          evenNumberOfPrecedingBackSlashes = () =>  backslashes % 2 === 0; 
 
     while (more()) {
         const c = cur();

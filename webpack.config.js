@@ -1,21 +1,30 @@
-'use strict'
 
-// to run minimizer: npm run build
-// then, to run tests: npm run test
+// - to build libs: npm run build
+// - to run tests: npm run test
+// - don't forget to:
+//  - update package.json[.version]
+//  - then: npm publish
+
+const { deepClone, genCombinations } = require('./utils');
+
+function genBuildConfiguration(baseConfig, opt) {
+    // start with base config
+    const config = deepClone(baseConfig); 
+
+    // customize it
+    config.output.filename = `lib/${opt.target.lib}/es${opt.ecma}/index${opt.minimize?'.min':''}.js`;
+    config.output.libraryTarget = opt.target.name; // amd, umd, commonjs, ...
+
+    if (config.optimization.minimize = opt.minimize)
+        config.optimization.minimizer = [ minimizerConfig(opt.ecma) ];
+
+    // done
+    return config;
+}
 
 // "maintained" minimizer for webpack (from https://github.com/terser-js/terser)
 const TerserPlugin = require('terser-webpack-plugin');
 
-const baseConfig = {
-    mode: 'production',
-    entry: './index.js',
-    output: { 
-        path: __dirname, 
-    }, 
-    optimization: {
-        minimize: false,
-    },
-}
 const minimizerConfig = ecmaVersion => new TerserPlugin({
     terserOptions: {
         // from: https://github.com/terser-js/terser#minify-options-structure
@@ -36,52 +45,26 @@ const minimizerConfig = ecmaVersion => new TerserPlugin({
     },
 });
 
-// helper
-const deepClone = obj => JSON.parse(JSON.stringify(obj));
-
-// utility
-function genCombos(options, cb) {
-    // options is an object where each property contains alternatives (an array)
-    // cb will be called with ALL COMBINATIONS of these properties
-
-    const props = Object.keys(options);
-    if (props.length === 0) return;
-
-    const thisProp = props[0],
-          propAlts = options[thisProp]; // an array of values
-
-    if (props.length === 1)
-        propAlts.forEach(alt => cb({ [thisProp]: alt }));
-    else {
-        const otherProps = deepClone(options);
-        delete otherProps[thisProp]; 
-        propAlts.forEach(v => genCombos(otherProps, subAlts => cb(Object.assign({ [thisProp]: v }, subAlts))))
-    }
+const baseBuildConfig = {
+    mode: 'production',
+    entry: './index.mjs',
+    output: { 
+        path: __dirname, 
+    }, 
+    optimization: {
+        minimize: false, // parms below will update this
+    },
 }
 
-function genBuildConfiguration(opt) {
-    const config = deepClone(baseConfig),
-          es = () => opt.ecma === 5 ? '' : `.es${opt.ecma}`;
-
-    config.output.filename = `dist/strip-comments${es()}${opt.target.ext}${opt.minimize?'.min':''}.js`;
-    config.output.libraryTarget = opt.target.name;
-
-    if (config.optimization.minimize = opt.minimize)
-        config.optimization.minimizer = [ minimizerConfig(opt.ecma) ];
-
-    return config;
-}
-
-const buildConfigurations = [];
-
-genCombos({
+const buildConfigurations = Array.from(genCombinations({
     target: [ 
-        { name: 'umd', ext: '', },
-        { name: 'amd', ext: '.amd', },
-        { name: 'commonjs2', ext: '.cjs', }
+        { lib: 'umd',  name: 'umd', },
+        { lib: 'amd',  name: 'amd', },
+        { lib: 'cjs2', name: 'commonjs2', },
+        { lib: 'cjs',  name: 'commonjs', }
     ],
     minimize: [ false, true ],
-    ecma: [ 5, 6, ],
-}, opts => buildConfigurations.push(genBuildConfiguration(opts)));
+    ecma: [ 5, 6, 7, 8],
+})).map(options => genBuildConfiguration(baseBuildConfig, options));
 
 module.exports = buildConfigurations;

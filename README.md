@@ -11,7 +11,7 @@ There are MANY such implementation on the interwebz. All (that I'm aware of) fal
 A full parser will not get tripped up on "comments" inside strings or regular expressions.
 
 ### Non-Parser-based Implementations
-The second class of comment removing algorithms are those created "on-the-fly" by developers (like me!) who need something very lighweight and single-purpose and don't want to (or can't afford to) include a full parser in their distro (usually because of size constraints).
+The second class of comment removing algorithms are those created "on-the-fly" by developers (like me!) who need something very lightweight and single-purpose and don't want (or can't afford) to include a full parser in their distro (usually because of code size constraints).
 
 A simple implementation (using regex) can be only a few lines long ([this is a good example](https://stackoverflow.com/questions/3577767/javascript-comment-stripper) and there are **many many many more** on the intertubes) but will usually fail in some cases. These failures may be acceptable depending on your use cases (if you have some control over the code you're likely to clean, this may not be an issue). But if you need to handle edge cases, these minimal implementations may not work since they may __fail silently__.
 

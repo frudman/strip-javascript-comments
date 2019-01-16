@@ -1,0 +1,52 @@
+// helper
+const deepClone = obj => JSON.parse(JSON.stringify(obj));
+
+// utility (using es6 generators)
+function* genCombinations(options) {
+
+    // options is an object where each property contains alternatives (an array)
+    // cb will be called with ALL COMBINATIONS of these properties
+
+    const props = Object.keys(options);
+    if (props.length === 0) return; // trivial case
+
+    const thisProp = props[0],
+          propAlts = options[thisProp]; // an array of values
+
+    if (props.length === 1) // variants on single property
+        for (const alt of propAlts) 
+            yield { [thisProp]: alt }; 
+    else { // variants on multiple properties
+        const otherProps = deepClone(options);
+        delete otherProps[thisProp]; 
+        for (const propAlt of propAlts)
+            for (const subAlts of genCombinations(otherProps))
+                yield Object.assign({ [thisProp]: propAlt }, subAlts); 
+    }
+}
+
+// utility (using callback)
+function genCombinations_with_callback(options, cb) {
+
+    // options is an object where each property contains alternatives (an array)
+    // cb will be called with ALL COMBINATIONS of these properties
+
+    const props = Object.keys(options);
+    if (props.length === 0) return; // trivial case
+
+    const thisProp = props[0],
+          propAlts = options[thisProp]; // an array of values
+
+    if (props.length === 1)
+        propAlts.forEach(alt => cb({ [thisProp]: alt }));
+    else {
+        const otherProps = deepClone(options);
+        delete otherProps[thisProp]; 
+        propAlts.forEach(v => genCombos(otherProps, subAlts => cb(Object.assign({ [thisProp]: v }, subAlts))))
+    }
+}
+
+module.exports = {
+    deepClone,
+    genCombinations,
+}

@@ -1,7 +1,6 @@
-// what we're testing (shown: 3 methods to include)
-const { stripComments } = require('../strip-comments.min.js');
-//const  stripComments  = require('./strip-comments.min.js').stripComments;
-//const  stripComments  = require('./strip-comments.min.js').default;
+// what we're testing
+import stripComments from '../index.mjs';
+import fs from 'fs';
 
 // what we're testing against
 const TEST_CASES_FILES = ['./test-cases/pathological.js', './test-cases/data.js'];
@@ -13,7 +12,7 @@ const testcaseSepPat = /(^|\n)[/][/]\s*[-]*\s*test\s*case\s*[:]?/;
 const fmt = (prefix, txt) => prefix + txt.replace(/\n/g, '\n' + prefix);
 
 TEST_CASES_FILES
-    .forEach(file => require('fs').readFile(file, 'utf8', (err, data) => {
+    .forEach(file => fs.readFile(file, 'utf8', (err, data) => {
 
         console.log(`CASES FROM: ${file}`);
         
