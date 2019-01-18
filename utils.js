@@ -1,6 +1,10 @@
 // helper
 const deepClone = obj => JSON.parse(JSON.stringify(obj));
 
+// prevent webpack/babel from removing async syntax (which neutralizes intended effect)
+// see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction
+const AsyncFunction = new Function(`return Object.getPrototypeOf(async function(){}).constructor`)();
+
 // utility (using es6 generators)
 function* genCombinations(options) {
 
@@ -49,4 +53,5 @@ function genCombinations_with_callback(options, cb) {
 module.exports = {
     deepClone,
     genCombinations,
+    AsyncFunction,
 }

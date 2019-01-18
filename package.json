@@ -10,7 +10,7 @@
     "test-cjs": "node test-cases/run.cjs",
     "test-es6": "node --experimental-modules test-cases/run.es6",
     "test": "npm run test-cjs && npm run test-es6",
-    "build": "webpack --config webpack.config.js"
+    "build": "rm -rf lib && webpack --config webpack.config.js"
   },
   "author": "Frederic Rudman",
   "license": "ISC",
