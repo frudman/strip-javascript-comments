@@ -10,22 +10,7 @@
 // todo: re-implement using https://www.npmjs.com/package/parallel-webpack
 //       - same as below but done in parallel (and .variant() function already implemented)
 
-const { deepClone, genCombinations } = require('tidbits');
-
-function genBuildConfiguration(baseConfig, opt) {
-    // start with base config
-    const config = deepClone(baseConfig); 
-
-    // customize it
-    config.output.filename = `lib/${opt.target.lib}/es${opt.ecma}/index${opt.minimize?'.min':''}.js`;
-    config.output.libraryTarget = opt.target.name; // amd, umd, commonjs, ...
-
-    if (config.optimization.minimize = opt.minimize)
-        config.optimization.minimizer = [ minimizerConfig(opt.ecma) ];
-
-    // done
-    return config;
-}
+const { genCombinations } = require('tidbits');
 
 // "maintained" minimizer for webpack (from https://github.com/terser-js/terser)
 const TerserPlugin = require('terser-webpack-plugin');
@@ -50,16 +35,25 @@ const minimizerConfig = ecmaVersion => new TerserPlugin({
     },
 });
 
-const baseBuildConfig = {
+const webpackConfig = opt => ({
     mode: 'production',
     entry: './index.mjs',
     output: { 
         path: __dirname, 
+        filename: `lib/${opt.target.lib}/es${opt.ecma}/index${opt.minimize?'.min':''}.js`,
+        libraryTarget: opt.target.name,
+
+        // // VERY IMPORTANT: globalObject as per below else 'window' will be used and this fails when
+        // // trying to import this module in a node app (e.g. another webpack config file)
+        // // - as per: https://github.com/webpack/webpack/issues/6525#issuecomment-417580843
+        // // - also: https://github.com/webpack/webpack/issues/6522#issuecomment-366708234
+        // globalObject: `typeof self !== 'undefined' ? self : this`, // replaces default of 'window' (for webpack 4)
     }, 
     optimization: {
-        minimize: false, // parms below will update this
+        minimize: opt.minimize,
+        minimizer: opt.minimize ? [ minimizerConfig(opt.ecma) ] : [],
     },
-}
+}); 
 
 const buildConfigurations = Array.from(genCombinations({
     target: [ 
@@ -70,6 +64,6 @@ const buildConfigurations = Array.from(genCombinations({
     ],
     minimize: [ false, true ],
     ecma: [ 5, 6, 7, 8],
-})).map(options => genBuildConfiguration(baseBuildConfig, options));
+})).map(webpackConfig);
 
 module.exports = buildConfigurations;
