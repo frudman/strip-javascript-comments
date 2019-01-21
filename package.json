@@ -11,7 +11,7 @@
     "test-es6": "node --experimental-modules test-cases/run.es6",
     "test": "npm run test-cjs && npm run test-es6",
     "build": "rm -rf lib && webpack --config webpack.config.js",
-    "pub": "npm run build && git add . && git commit -m 'working code' && git push && npm version patch -m 'upgrade to %s while working code' && npm publish"
+    "pub": "npm run build && git add . && git commit -m 'working code' && npm version patch -m 'upgrade to %s while working code' && git push && npm publish"
   },
   "author": "Frederic Rudman",
   "license": "ISC",
