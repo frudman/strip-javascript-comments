@@ -103,3 +103,5 @@ var pc5b = /fails: trailing slash of regex lost->//* valid multiline comment fol
 While my implementation does NOT cover the last 2 "patho-cases," (#4 & #5) it WILL GENERATE A SYNTAX ERROR in the resulting code. This error can be caught and the suggested workarounds used (if it wasn't an error in the first place).
 
 For me, this compromise is adequate for the use cases of the app I'm working on. Your requirements may differ.
+
+**IMPORTANT OTHER CAVEAT** It is possible to embed tick-strings inside other tick strings. While the ultimate number of ticks will (must) balance out (and the code is likely to work 99.999% of the time) IT IS POSSIBLE that comments can be inserted WITHIN the `${expressions}` with those nested tick marks. This COULD affect the resulting code. Again, I consider this to be a serious edge case and am not concerned with it (I think it would be VERY poor form to use comments embedded within tick-based strings)
