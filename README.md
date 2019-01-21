@@ -1,5 +1,5 @@
 ## STRIP-JAVASCRIPT-COMMENTS
-A small & fast(ish) implementation of comment-removal from javascript source code.
+A small (464 bytes) & fast(ish) implementation of comment-removal from javascript source code.
 
 There are MANY such implementation on the interwebz. All (that I'm aware of) fall into 2 camps:
 1. Directly or indirectly use a full javascript parser, often [esprima](http://esprima.org/) together with the [escodegen project](https://github.com/estools/escodegen). Another example is the [Babel ecosytem](https://new.babeljs.io/) which uses the [babylon parser](https://new.babeljs.io/docs/en/babylon.html) under the hood.
@@ -22,7 +22,7 @@ I also wanted a dead-simple function that did not use any options or settings (a
 
 My implementation does a single thing: removes ALL comments from javascript code. That's it.
 
-And the minified implementation is under 2k (1.6k last I checked).
+And the [minified-gzipped implementation is only 464 bytes!!!](https://bundlephobia.com/result?p=strip-javascript-comments@1.1.10)
 
 [The closest to my implementation is this one, from lehni](https://github.com/lehni/uncomment.js). That version is also available 
 from the [npm repo as uncomment](https://www.npmjs.com/package/uncomment).

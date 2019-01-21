@@ -59,11 +59,10 @@ const buildConfigurations = Array.from(genCombinations({
     target: [ 
         { lib: 'umd',  name: 'umd', },
         { lib: 'amd',  name: 'amd', },
-        { lib: 'cjs2', name: 'commonjs2', },
-        { lib: 'cjs',  name: 'commonjs', }
+        { lib: 'cjs', name: 'commonjs2', },
     ],
     minimize: [ false, true ],
-    ecma: [ 5, 6, 7, 8],
+    ecma: [ 5, 6, ],
 })).map(webpackConfig);
 
 module.exports = buildConfigurations;
