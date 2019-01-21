@@ -10,7 +10,7 @@
 // todo: re-implement using https://www.npmjs.com/package/parallel-webpack
 //       - same as below but done in parallel (and .variant() function already implemented)
 
-const { deepClone, genCombinations } = require('./utils');
+const { deepClone, genCombinations } = require('tidbits');
 
 function genBuildConfiguration(baseConfig, opt) {
     // start with base config

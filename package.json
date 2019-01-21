@@ -10,7 +10,9 @@
     "test-cjs": "node test-cases/run.cjs",
     "test-es6": "node --experimental-modules test-cases/run.es6",
     "test": "npm run test-cjs && npm run test-es6",
-    "build": "rm -rf lib && webpack --config webpack.config.js"
+    "build": "rm -rf lib && webpack --config webpack.config.js",
+    "pub": "npm run build && git add . && git commit -m 'working code' && git push && npm version patch -m 'upgrade to %s while working code' && npm publish"
+
   },
   "author": "Frederic Rudman",
   "license": "ISC",
@@ -36,6 +38,7 @@
   "homepage": "https://github.com/frudman/strip-javascript-comments#readme",
   "devDependencies": {
     "terser-webpack-plugin": "^1.2.1",
+    "tidbits": "^1.0.5",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
   }
